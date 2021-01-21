@@ -11,6 +11,17 @@ module.exports = {
       port: 7545,
       network_id: "*" // Match any network id
     },
+    goerli: {
+      provider: function() {
+        return new HDWalletProvider(
+          privateKeys.split(','), // Array of account private keys
+          `https://goerli.infura.io/v3/${process.env.INFURA_API_KEY}`// Url to an Ethereum Node
+        )
+      },
+      gas: 5000000,
+      gasPrice: 5000000000, // 5 gwei
+      network_id: 5
+    },
     kovan: {
       provider: function() {
         return new HDWalletProvider(

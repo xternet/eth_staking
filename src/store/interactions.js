@@ -1,4 +1,4 @@
-import Contract from '../backEnd/abis/EthStakingPool.json'
+import EthStakingPool from '../backEnd/abis/EthStakingPool.json'
 import Web3 from 'web3'
 import {
   web3Loaded,
@@ -66,7 +66,7 @@ export const loadContract = async (dispatch, web3, netId) => {
     // const contractABI =
     // const contractAddress = ''
     // const contract = new web3.eth.Contract(contractABI, contractAddress)
-    const contract = new web3.eth.Contract(Contract.abi, Contract.networks[netId].address)
+    const contract = new web3.eth.Contract(EthStakingPool.abi, EthStakingPool.networks[netId].address)
     dispatch(contractLoaded(contract))
     return contract
   } catch (e) {
@@ -87,8 +87,10 @@ export const update = async (dispatch) => {
     contract = await loadContract(dispatch, web3, netId)
     contractBalance = await loadContractBalance(dispatch, web3, contract)
   
-    if(account){
+    if(account && contract){
       await loadBalance(dispatch, web3, account)
+    } else {
+      console.log('Something wrong with either contract or account')
     }
   } catch (e) {
     console.log('Error, update data: ', e)
